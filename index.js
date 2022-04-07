@@ -81,34 +81,34 @@ async function RedisConnect() {
   //   console.log(get);
 
   // redis data in JSON
-  //   const srcPath = [];
-  //   const testPath = [];
-
-  //   for (let i = 0; i < db.length; i++) {
-  //     if (await client.exists(db[i].project_id)) {
-  //       const path = await client.json.get(`${db[i].project_id}`);
-  //       console.log(`${db[i].project_id}`);
-  //       console.log(path);
-  //       srcPath[i] = path.srcPath;
-  //       console.log(path.toString());
-  //       testPath[i] = path.testPath;
-  //     } else {
-  //       srcPath[i] = db[i].src_directory;
-  //       testPath[i] = db[i].test_directory;
-  //       const pathJson = {
-  //         srcPath: db[i].src_directory,
-  //         testPath: db[i].test_directory,
-  //       };
-  //       console.log(`${db[i].project_id}`);
-  //       await client.json.set(`${db[i].project_id}`, pathJson);
-  //     }
-  //   }
-  //   console.log(srcPath);
-  //   console.log(testPath);
-
-  //json-redis npm package
   const srcPath = [];
   const testPath = [];
+
+  for (let i = 0; i < db.length; i++) {
+    if (await client.exists(db[i].project_id)) {
+      const path = await client.get(`${db[i].project_id}`);
+      console.log(`${db[i].project_id}`);
+      console.log(path);
+      srcPath[i] = path.srcPath;
+      console.log(path.toString());
+      testPath[i] = path.testPath;
+    } else {
+      srcPath[i] = db[i].src_directory;
+      testPath[i] = db[i].test_directory;
+      const pathJson = {
+        srcPath: db[i].src_directory,
+        testPath: db[i].test_directory,
+      };
+      console.log(`${db[i].project_id}`);
+      await client.json.set(`${db[i].project_id}`, pathJson);
+    }
+  }
+  console.log(srcPath);
+  console.log(testPath);
+
+  //json-redis npm package
+  //   const srcPath = [];
+  //   const testPath = [];
 
   await client.disconnect();
 }
