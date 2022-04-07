@@ -100,7 +100,7 @@ async function RedisConnect() {
         testPath: db[i].test_directory,
       };
       console.log(`${db[i].project_id}`);
-      await client.json.set(`${db[i].project_id}`, pathJson);
+      await client.set(`${db[i].project_id}`, pathJson);
     }
   }
   console.log(srcPath);
