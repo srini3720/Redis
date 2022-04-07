@@ -1,8 +1,5 @@
 const redis = require("redis");
 require("dotenv").config();
-// import JSONCache from "redis-json";
-const { JSONCache } = require("redis-json");
-// const jsonCache = new JSONCache(redis);
 
 const db = [
   {
