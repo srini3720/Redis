@@ -85,23 +85,24 @@ async function RedisConnect() {
   for (let i = 0; i < db.length; i++) {
     if (await client.exists(db[i].project_id)) {
       const path = await client.json.get(`${db[i].project_id}`);
-      console.log(`${db[i].project_id}`);
-      console.log(JSON.stringify(path));
+      // console.log(`${db[i].project_id}`);
+      // console.log(JSON.stringify(path));
       srcPath[i] = path.srcPath;
       testPath[i] = path.testPath;
     } else {
       srcPath[i] = db[i].src_directory;
       testPath[i] = db[i].test_directory;
-      console.log(`${db[i].project_id}`);
+      // console.log(`${db[i].project_id}`);
       const result = await client.json.set(`${db[i].project_id}`, ".", {
         srcPath: `${db[i].src_directory}`,
         testPath: `${db[i].test_directory}`,
       });
-      console.log(result);
+      // console.log(result);
     }
   }
-  console.log(srcPath);
-  console.log(testPath);
+  // console.log(srcPath);
+  // console.log(testPath);
+  return [srcPath, testPath];
 
   //micro CRUD operations
   // const srcPath = [];
@@ -113,7 +114,17 @@ async function RedisConnect() {
   // for(let key in result) {
   //   console.log(key + ":", result[key]);
   // }
-
   await client.disconnect();
 }
-RedisConnect();
+async function main() {
+  const path = await RedisConnect();
+  const testPath = path[0];
+  const srcPath = path[1];
+  console.log(testPath);
+  console.log(srcPath);
+  // console.log(path);
+}
+main();
+// const srcPath =  RedisConnect();
+// console.log(srcPath);
+// console.log(testPath);
