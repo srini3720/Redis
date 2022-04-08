@@ -85,13 +85,6 @@ async function RedisConnect() {
   for (let i = 0; i < db.length; i++) {
     if (await client.exists(db[i].project_id)) {
       const path = await client.json.get(`${db[i].project_id}`);
-      var strBuilder = [];
-      for (key in path) {
-        if (path.hasOwnProperty(key)) {
-          strBuilder.push("Key is " + key + ", value is " + path[key] + "\n");
-        }
-      }
-      console.log(strBuilder);
       console.log(`${db[i].project_id}`);
       console.log(JSON.stringify(path));
       srcPath[i] = path.srcPath;
@@ -100,11 +93,11 @@ async function RedisConnect() {
       srcPath[i] = db[i].src_directory;
       testPath[i] = db[i].test_directory;
       console.log(`${db[i].project_id}`);
-     const result= await client.json.set(`${db[i].project_id}`, ".", {
+      const result = await client.json.set(`${db[i].project_id}`, ".", {
         srcPath: `${db[i].src_directory}`,
         testPath: `${db[i].test_directory}`,
       });
-      console.log(result)
+      console.log(result);
     }
   }
   console.log(srcPath);
