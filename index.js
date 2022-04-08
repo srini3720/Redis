@@ -84,10 +84,18 @@ async function RedisConnect() {
   for (let i = 0; i < db.length; i++) {
     if (await client.exists(db[i].project_id)) {
       const path = await client.get(`${db[i].project_id}`);
+      var strBuilder = [];
+      for (key in path) {
+        if (path.hasOwnProperty(key)) {
+          strBuilder.push(
+            "Key is " + key + ", value is " +path[key] + "\n"
+          );
+        }
+      }
+      console.log(strBuilder);
       console.log(`${db[i].project_id}`);
-      console.log(path);
+      console.log(JSON.stringify(path));
       srcPath[i] = path.srcPath;
-      console.log(path.toString());
       testPath[i] = path.testPath;
     } else {
       srcPath[i] = db[i].src_directory;
